@@ -1,0 +1,39 @@
+from ._anvil_designer import Form1Template
+from anvil import *
+import anvil.server
+import anvil.tables as tables
+import anvil.tables.query as q
+from anvil.tables import app_tables
+import plotly.graph_objects as go
+import anvil.server
+
+class Form1(Form1Template):
+
+  def __init__(self, **properties):
+    # Set Form properties and Data Bindings.
+    self.init_components(**properties)
+    #call functions to access function information on application start
+    self.graph_plot_1()
+    self.graph_plot_2()
+    self.graph_plot_3()
+    
+  def graph_plot_1(self):
+    #you can manually insert data in this form file
+    #plot_1 is a web component
+    self.plot_1.data = go.Bar(x=['Wholesale', 'Retail'], y=[9647, 12904], name='Customer_Roles')
+    
+  def graph_plot_2(self):
+    #you can access function in the Anvil server hosted through the anvil site
+    product_data = anvil.server.call('return_products')
+    self.plot_2.data = go.Bar(
+      x= [x['Product'] for x in product_data],
+      y= [x['Quantity'] for x in product_data]
+    )
+  
+  def graph_plot_3(self):
+    # You can access remote uplink data through running a script: see Anvil Uplink Example
+    data = anvil.server.call('serve_list')
+    self.plot_3.data = go.Bar(
+      x= [x[0] for x in data],
+      y= [x[1] for x in data]
+      )
