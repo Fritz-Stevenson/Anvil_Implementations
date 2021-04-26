@@ -1,0 +1,9 @@
+import anvil.tables as tables
+import anvil.tables.query as q
+from anvil.tables import app_tables
+import anvil.server
+
+@anvil.server.callable
+def return_products():
+    #app_tables accesses anvil hosted tables through the search() function, "products" is a case sensitive table that was created in anvil manually 
+    return app_tables.products.search()
