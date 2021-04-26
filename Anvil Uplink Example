@@ -1,0 +1,15 @@
+#This script must be run through the command line before the app is accessed through anvil. This is a replacement for anvil's dedicated servers.
+
+import anvil.server
+# Import any module available in the environment
+import pandas as pd
+anvil.server.connect("3A7Y4OTOPHH5IU4WR624ILJW-WC2YQ76L7QWWT4MJ")
+# wrapper for function callable through anvil.server.call()
+@anvil.server.callable
+# Insert function to retrieve or process data from anywhere on the machine.
+def serve_list():
+    frame = pd.read_csv('C:\\Users\\fritz\\Documents\\product_line_csv_20_12.csv')
+    return [*zip(frame['product_line'], frame['avg_change_over_month'])]
+
+#Make sure the server stays open
+anvil.server.wait_forever()
